@@ -1,20 +1,4 @@
 {
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "out"
-      }
-    },
-    {
-      "src": "api/**/*.py",
-      "use": "@vercel/python",
-      "config": {
-        "requirements": "requirements.txt"
-      }
-    }
-  ],
   "functions": {
     "api/scrape/getArticleTitles.py": {
       "runtime": "vercel-python@0.1",
