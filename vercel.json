@@ -14,5 +14,11 @@
         "requirements": "requirements.txt"
       }
     }
-  ]
+  ],
+  "functions": {
+    "api/scrape/getArticleTitles.py": {
+      "runtime": "vercel-python@0.1",
+      "memory": 128
+    }
+  }
 }
