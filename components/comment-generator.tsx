@@ -7,7 +7,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import TextField from "@mui/material/TextField";
 import Snackbar from "@mui/material/Snackbar";
-import { FormControl } from "@mui/material";
+import { CircularProgress, FormControl } from "@mui/material";
 
 export default function CommentGenerator({
   selectedArticle,
@@ -16,15 +16,34 @@ export default function CommentGenerator({
 }) {
   const [open, setOpen] = useState(false);
   const [article, setArticle] = useState<string>("");
+  const [comment, setComment] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     setArticle(selectedArticle);
   }, [selectedArticle]);
 
-  const generateCommentHandler = () => {
-    console.log(article);
+  const generateCommentHandler = async () => {
+    setComment(null);
+    setLoading(true);
+    try {
+      const response = await fetch("/api/openai", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ prompt: article }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setComment(data.message.content);
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
   };
-
   const copyTextHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     const cardContent = event.currentTarget.parentNode?.querySelector(
       ".MuiCardContent-root"
@@ -80,20 +99,19 @@ export default function CommentGenerator({
               color="success"
               size="large"
             >
-              Generiši komentare
+              Generiši komentar
             </Button>
           </div>
         </Card>
-
-        <Card className="flex flex-col md:flex-row justify-between items-center justify-center gap-1 p-5 md:px-10 dark:text-white dark:bg-gray-800 w-11/12">
-          <CardContent>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-            voluptatum, quibusdam, quia, quod voluptates voluptatem
-          </CardContent>
-          <Button variant="outlined" onClick={copyTextHandler}>
-            Copy
-          </Button>
-        </Card>
+        {loading && <CircularProgress />}
+        {comment && (
+          <Card className="flex flex-col md:flex-row justify-between items-center justify-center gap-1 p-5 md:px-10 dark:text-white dark:bg-gray-800 w-11/12">
+            <CardContent>{comment}</CardContent>
+            <Button variant="outlined" onClick={copyTextHandler}>
+              Copy
+            </Button>
+          </Card>
+        )}
       </div>
       <Snackbar
         open={open}

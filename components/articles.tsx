@@ -1,6 +1,7 @@
 "use client";
-import { Container, Card, CardContent, Button } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+
+import { Button, Card, CardContent, Container } from "@mui/material";
 
 export default function Articles({
   selectedArticle,
@@ -13,7 +14,6 @@ export default function Articles({
     const response = await fetch("/api/scrape");
     const data = await response.json();
     setArticles(data);
-    console.log(data);
   };
 
   useEffect(() => {
@@ -24,8 +24,8 @@ export default function Articles({
     <Card variant="outlined" className="md:p-5">
       <Container className="flex flex-col gap-5 ">
         <h3>Najnoviji klix.ba članci</h3>
-        {articles.map((article: any) => (
-          <Card style={{ width: "100%" }}>
+        {articles.map((article: any, index) => (
+          <Card style={{ width: "100%" }} key={index}>
             <CardContent
               onClick={selectedArticle}
               className="cursor-pointer dark:hover:bg-gray-700 hover:bg-gray-100"

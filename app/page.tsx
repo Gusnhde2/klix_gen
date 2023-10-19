@@ -19,7 +19,9 @@ const lightTheme = createTheme({
 
 export default function Home() {
   const [article, setArticle] = useState<string>("");
+
   const isSystemDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+
   const selectedArticleHandler = (event: React.MouseEvent<HTMLDivElement>) => {
     const articleTitle = (event.target as HTMLDivElement).textContent;
     if (articleTitle) {
