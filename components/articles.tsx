@@ -38,7 +38,11 @@ export default function Articles({
     <Card variant="outlined" className="md:p-5 md:mr-20 w-full">
       <Container className="flex flex-col gap-5  ">
         <h3>klix.ba članci</h3>
-        <ButtonGroup variant="text" aria-label="outlined primary button group">
+        <ButtonGroup
+          variant="text"
+          aria-label="outlined primary button group"
+          style={{ marginBottom: "1rem" }}
+        >
           <Button
             onClick={() => setArticleType("najnovije")}
             style={{
@@ -67,7 +71,11 @@ export default function Articles({
         )}
         {!loading &&
           articles.map((article: any, index) => (
-            <Card className="md:w-50" key={index}>
+            <Card
+              className="md:w-50"
+              key={index}
+              style={{ marginBottom: "1rem" }}
+            >
               <CardContent
                 onClick={selectedArticle}
                 className="cursor-pointer dark:hover:bg-gray-700 hover:bg-gray-100"
