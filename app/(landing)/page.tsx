@@ -6,6 +6,7 @@ import CommentGenerator from "@/components/comment-generator";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useUser } from "@clerk/nextjs";
 
 const darkTheme = createTheme({
   palette: {
@@ -20,6 +21,8 @@ const lightTheme = createTheme({
 
 export default function Home() {
   const [article, setArticle] = useState<string>("");
+
+  const user = useUser();
 
   const isSystemDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
