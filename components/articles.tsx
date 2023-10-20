@@ -32,7 +32,7 @@ export default function Articles({
 
   useEffect(() => {
     getArticles();
-  }, [articleType, getArticles]);
+  }, [articleType]);
 
   return (
     <Card variant="outlined" className="md:p-5 md:mr-20 w-full">
