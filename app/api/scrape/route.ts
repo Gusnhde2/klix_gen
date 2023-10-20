@@ -1,24 +1,32 @@
-import { exec } from "child_process";
-import { NextResponse } from "next/server";
+import axios from "axios";
+import { NextRequest, NextResponse } from "next/server";
+import { parse } from "node-html-parser";
 
-export async function GET() {
-  function getArticleTitles(): Promise<string> {
-    return new Promise((resolve, reject) => {
-      exec(
-        "python app/api/scrape/getArticleTitles.py",
-        (err, stdout, stderr) => {
-          if (err) {
-            reject(err);
-            return;
-          }
+export async function POST(req: NextRequest) {
+  const { page } = await req.json();
 
-          resolve(stdout);
-        }
-      );
+  try {
+    const url = `https://www.klix.ba/${page}`;
+    const response = await axios.get(url);
+    const root = parse(response.data);
+
+    const articles = root.querySelectorAll("article").map((article: any) => {
+      return {
+        title: article.querySelector("h2").text.trim(),
+        link: article.querySelector("a").getAttribute("href"),
+      };
     });
+
+    return new NextResponse(
+      JSON.stringify({
+        articles: articles,
+      })
+    );
+  } catch (error) {
+    return new NextResponse(
+      JSON.stringify({
+        error: "An error occurred while processing your request.",
+      })
+    );
   }
-
-  const articles = await getArticleTitles();
-
-  return new NextResponse(articles);
 }

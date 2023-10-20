@@ -1,13 +1,13 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
+import { CircularProgress, FormControl } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import TextField from "@mui/material/TextField";
 import Snackbar from "@mui/material/Snackbar";
-import { CircularProgress, FormControl } from "@mui/material";
+import TextField from "@mui/material/TextField";
 
 export default function CommentGenerator({
   selectedArticle,
@@ -105,7 +105,7 @@ export default function CommentGenerator({
         </Card>
         {loading && <CircularProgress />}
         {comment && (
-          <Card className="flex flex-col md:flex-row justify-between items-center justify-center gap-1 p-5 md:px-10 dark:text-white dark:bg-gray-800 w-11/12">
+          <Card className="flex flex-col md:flex-row justify-between items-center justify-center gap-1 pb-3 md:px-10 md:py-5 dark:text-white dark:bg-gray-800 w-11/12">
             <CardContent>{comment}</CardContent>
             <Button variant="outlined" onClick={copyTextHandler}>
               Copy
