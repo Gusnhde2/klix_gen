@@ -5,16 +5,15 @@ import { CircularProgress, FormControl } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Snackbar from "@mui/material/Snackbar";
 import TextField from "@mui/material/TextField";
+
+import CommentCard from "./comment-card";
 
 export default function CommentGenerator({
   selectedArticle,
 }: {
   selectedArticle: string;
 }) {
-  const [open, setOpen] = useState(false);
   const [article, setArticle] = useState<string>("");
   const [comment, setComment] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -44,33 +43,6 @@ export default function CommentGenerator({
       setLoading(false);
     }
   };
-  const copyTextHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
-    const cardContent = event.currentTarget.parentNode?.querySelector(
-      ".MuiCardContent-root"
-    ) as HTMLElement;
-    const text = cardContent?.textContent?.trim();
-    if (text) {
-      navigator.clipboard.writeText(text);
-      setOpen(true);
-    }
-  };
-  const handleClose = (
-    event: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
-  };
-  const action = (
-    <>
-      <Button color="secondary" size="small" onClick={handleClose}>
-        Zatvori
-      </Button>
-    </>
-  );
 
   return (
     <Box
@@ -104,22 +76,8 @@ export default function CommentGenerator({
           </div>
         </Card>
         {loading && <CircularProgress />}
-        {comment && (
-          <Card className="flex flex-col md:flex-row justify-between items-center justify-center gap-1 pb-3 md:px-10 md:py-5 dark:text-white dark:bg-gray-800 w-11/12">
-            <CardContent>{comment}</CardContent>
-            <Button variant="outlined" onClick={copyTextHandler}>
-              Copy
-            </Button>
-          </Card>
-        )}
+        {comment && <CommentCard comment={comment} article={article} />}
       </div>
-      <Snackbar
-        open={open}
-        onClose={handleClose}
-        autoHideDuration={3000}
-        message="Komentar je kopiran."
-        action={action}
-      />
     </Box>
   );
 }

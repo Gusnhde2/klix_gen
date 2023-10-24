@@ -30,11 +30,10 @@ model UserSubscription {
 }
 
 model UserComments {
-  id        String     @id @default(uuid())
-  userId    String @unique
-  postId    String @unique
+  userId    String 
+  postId    String    @id @default(uuid())
   article   String
-  comment   String
+  comment   String  @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

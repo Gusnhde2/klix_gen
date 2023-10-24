@@ -8,7 +8,6 @@ import ProfileButton from "./profile-button";
 export default function Header() {
   const router = useRouter();
   const user = useUser();
-  console.log(user);
   return (
     <div className="flex justify-between items-center text-white px-5 py-5 md:px-10 md:py-5 mb-10 md:mb-20 border-x-0 border-y-0 border-b-2 border-solid border-gray-700 dark:border-gray-200 bg-gray-500 dark:bg-gray-800">
       <div onClick={() => router.push("/")} className="cursor-pointer">
