@@ -24,6 +24,11 @@ export default function ProfileButton() {
     setAnchorEl(null);
   };
 
+  const handleGoToComments = () => {
+    router.push("/saved-comments");
+    setAnchorEl(null);
+  };
+
   return (
     <div>
       <div onClick={handleClick}>
@@ -39,7 +44,7 @@ export default function ProfileButton() {
         }}
       >
         <MenuItem onClick={handleGoToProfile}>Profil</MenuItem>
-        <MenuItem onClick={handleClose}>Spremljeni komentari</MenuItem>
+        <MenuItem onClick={handleGoToComments}>Spremljeni komentari</MenuItem>
         <MenuItem onClick={() => auth.signOut()}>Logout</MenuItem>
       </Menu>
     </div>
