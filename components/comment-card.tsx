@@ -2,7 +2,14 @@
 
 import { useState } from "react";
 
-import { Button, Card, CardContent, Snackbar } from "@mui/material";
+import {
+  Alert,
+  AlertColor,
+  Button,
+  Card,
+  CardContent,
+  Snackbar,
+} from "@mui/material";
 
 export default function CommentCard({
   comment,
@@ -11,8 +18,11 @@ export default function CommentCard({
   comment: string;
   article: string;
 }) {
-  const [open, setOpen] = useState(false);
+  const [status, setStatus] = useState<number>();
   const [message, setMessage] = useState<string>("");
+  const [open, setOpen] = useState<boolean>(false);
+
+  const severity = status === 200 ? "success" : "error";
 
   const saveCommentHandler = async () => {
     try {
@@ -25,49 +35,30 @@ export default function CommentCard({
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(data, "data");
-        setOpen(true);
+        setStatus(data.status);
         setMessage(data.message);
+        setOpen(true);
       } else {
         const errorMessage = await response.json();
-        console.log(errorMessage, "error");
-        setOpen(true);
+        setStatus(errorMessage.status);
         setMessage(errorMessage.message);
+        setOpen(true);
       }
     } catch (error: any) {
+      setMessage(error.message);
       setOpen(true);
-      console.log(error, "aaa");
     }
   };
 
-  const copyTextHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
-    const cardContent = event.currentTarget.parentNode?.querySelector(
-      ".MuiCardContent-root"
-    ) as HTMLElement;
-    const text = cardContent?.textContent?.trim();
-    if (text) {
-      navigator.clipboard.writeText(text);
-      setOpen(true);
+  const copyTextHandler = () => {
+    if (comment) {
+      navigator.clipboard.writeText(comment);
+      setStatus(200);
       setMessage("Komentar je kopiran!");
+      setOpen(true);
     }
   };
 
-  const handleClose = (
-    event: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
-  };
-
-  const action = (
-    <Button color="secondary" size="small" onClick={handleClose}>
-      Zatvori
-    </Button>
-  );
   return (
     <>
       <Card className="flex flex-col md:flex-row justify-between items-center justify-center gap-1 pb-3 md:px-10 md:py-5 dark:text-white dark:bg-gray-800 w-11/12">
@@ -83,11 +74,12 @@ export default function CommentCard({
       </Card>
       <Snackbar
         open={open}
-        onClose={handleClose}
-        autoHideDuration={3000}
-        message={message}
-        action={action}
-      />
+        autoHideDuration={6000}
+        onClose={() => setOpen(false)}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert severity={severity as AlertColor}>{message}</Alert>
+      </Snackbar>
     </>
   );
 }

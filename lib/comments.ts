@@ -32,3 +32,17 @@ export const getComments = async () => {
 
   return comments;
 };
+
+export const deleteComment = async (id: number) => {
+  const { userId } = auth();
+
+  if (!userId) {
+    return;
+  }
+
+  await prisma.userComments.delete({
+    where: {
+      postId: id.toString(),
+    },
+  });
+};
