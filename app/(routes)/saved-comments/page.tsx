@@ -112,7 +112,7 @@ export default function SavedComments() {
       })}
       <Snackbar
         open={openSnackbar}
-        autoHideDuration={6000}
+        autoHideDuration={1500}
         onClose={() => setOpenSnackbar(false)}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >

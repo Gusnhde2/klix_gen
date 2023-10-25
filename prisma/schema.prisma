@@ -32,6 +32,7 @@ model UserSubscription {
 model UserComments {
   userId    String 
   postId    String    @id @default(uuid())
+  userName  String
   article   String
   comment   String  @unique
   createdAt DateTime @default(now())

@@ -1,7 +1,11 @@
 import { auth } from "@clerk/nextjs";
 import prisma from "./prismadb";
 
-export const saveComment = async (comment: string, article: string) => {
+export const saveComment = async (
+  comment: string,
+  article: string,
+  userName: string
+) => {
   const { userId } = auth();
 
   if (!userId) {
@@ -13,6 +17,7 @@ export const saveComment = async (comment: string, article: string) => {
       article,
       comment,
       userId,
+      userName,
     },
   });
 };
@@ -45,4 +50,10 @@ export const deleteComment = async (id: number) => {
       postId: id.toString(),
     },
   });
+};
+
+export const getAllComments = async () => {
+  const comments = await prisma.userComments.findMany();
+
+  return comments;
 };

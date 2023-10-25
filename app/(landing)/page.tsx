@@ -1,47 +1,68 @@
 "use client";
-import { useState } from "react";
-
-import Articles from "@/components/articles";
-import CommentGenerator from "@/components/comment-generator";
-import CssBaseline from "@mui/material/CssBaseline";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import CommentCard from "@/components/comment-card";
 import { useUser } from "@clerk/nextjs";
-
-const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
-  },
-});
-const lightTheme = createTheme({
-  palette: {
-    mode: "light",
-  },
-});
+import { Button, ButtonGroup, CircularProgress } from "@mui/material";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  const [article, setArticle] = useState<string>("");
+  const [comments, setComments] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const user = useUser();
 
-  const isSystemDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+  const router = useRouter();
 
-  const selectedArticleHandler = (event: React.MouseEvent<HTMLDivElement>) => {
-    const articleTitle = (event.target as HTMLDivElement).textContent;
-    if (articleTitle) {
-      setArticle(articleTitle);
-      scrollTo(0, 0);
-    } else {
-      setArticle("");
+  const getCommentsHandler = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("/api/comments", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.ok) {
+        const comments = await response.json();
+        setComments(comments.comments);
+        setLoading(false);
+      }
+    } catch (error: any) {
+      console.error(error);
     }
   };
+
+  useEffect(() => {
+    getCommentsHandler();
+  }, []);
+
   return (
-    <ThemeProvider theme={isSystemDarkMode ? darkTheme : lightTheme}>
-      <CssBaseline />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-0">
-        <CommentGenerator selectedArticle={article} />
-        <Articles selectedArticle={selectedArticleHandler} />
-      </div>
-    </ThemeProvider>
+    <div className="flex flex-col gap-5 px-3">
+      <ButtonGroup variant="text" aria-label="text button group">
+        <Button onClick={() => router.push("/generate")}>
+          Generiši komentar
+        </Button>
+        {user.isSignedIn && (
+          <Button onClick={() => router.push("/saved-comments")}>
+            Moji komentari
+          </Button>
+        )}
+      </ButtonGroup>
+      {loading && (
+        <div className="flex justify-center w-full">
+          <CircularProgress />
+        </div>
+      )}
+      {comments.map((comments: any) => (
+        <CommentCard
+          key={comments.postId}
+          variant="home"
+          comment={comments.comment}
+          article={comments.article}
+          createdAt={new Date(comments.createdAt).toLocaleDateString()}
+          userName={comments.userName}
+        />
+      ))}
+    </div>
   );
 }

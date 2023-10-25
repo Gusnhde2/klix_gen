@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { deleteComment, getComments, saveComment } from "@/lib/comments";
 
 export async function POST(req: NextRequest) {
-  const { comment, article } = await req.json();
+  const { comment, article, userName } = await req.json();
 
   try {
-    await saveComment(comment, article);
+    await saveComment(comment, article, userName);
     return NextResponse.json({ message: "Komentar je spremljen", status: 200 });
   } catch (error) {
     console.error(error);
