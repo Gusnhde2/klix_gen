@@ -16,7 +16,7 @@ export default function Home() {
   const getCommentsHandler = async () => {
     setLoading(true);
     try {
-      const response = await fetch("/api/comments", {
+      const response = await fetch("/api/all-comments", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
