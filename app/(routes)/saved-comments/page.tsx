@@ -7,9 +7,7 @@ import {
   Alert,
   AlertColor,
   Button,
-  Card,
   CircularProgress,
-  Paper,
   Snackbar,
 } from "@mui/material";
 
@@ -77,7 +75,7 @@ export default function SavedComments() {
     }
   };
   return (
-    <Paper className="flex flex-col items-center gap-10 dark:bg-neutral-900 dark:text-white md:p-10 p-3">
+    <div className="flex flex-col items-center gap-10 dark:bg-neutral-900 dark:text-white md:p-10 p-3">
       <h3 className="w-full text-left">
         Zdravo {user.user?.firstName}! Ovo je stranica Vaših spremljenih
         komentara.
@@ -85,7 +83,7 @@ export default function SavedComments() {
 
       {comments.map((comment: any) => {
         return (
-          <Card
+          <div
             key={comment.postId}
             className="flex flex-col w-11/12 md:w-full md:flex-row items-center justify-between px-5 pb-3 dark:bg-neutral-700 dark:text-white"
           >
@@ -107,7 +105,7 @@ export default function SavedComments() {
                 Izbriši komentar
               </Button>
             </div>
-          </Card>
+          </div>
         );
       })}
       <Snackbar
@@ -119,6 +117,6 @@ export default function SavedComments() {
         <Alert severity={severity as AlertColor}>{deleteMessage}</Alert>
       </Snackbar>
       {loading && <CircularProgress />}
-    </Paper>
+    </div>
   );
 }

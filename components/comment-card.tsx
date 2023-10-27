@@ -2,17 +2,10 @@
 
 import { useState } from "react";
 
-import {
-  Alert,
-  AlertColor,
-  Button,
-  Card,
-  IconButton,
-  Snackbar,
-} from "@mui/material";
-import { useUser } from "@clerk/nextjs";
 import useComment from "@/hooks/useComment";
-import { FavoriteBorder, Favorite } from "@mui/icons-material";
+import { useUser } from "@clerk/nextjs";
+import { Favorite, FavoriteBorder } from "@mui/icons-material";
+import { Alert, AlertColor, Button, IconButton, Snackbar } from "@mui/material";
 
 interface CommentCardProps {
   comment: string;
@@ -49,7 +42,7 @@ export default function CommentCard({
 
   return (
     <>
-      <Card className="flex flex-col md:flex-row justify-between items-center justify-center gap-1 p-3 md:px-10 md:py-5 dark:text-white dark:bg-gray-800 w-11/12">
+      <div className="flex flex-col md:flex-row justify-between items-center justify-center gap-1 p-3 md:px-10 md:py-5 dark:text-white dark:bg-gray-800 w-11/12 rounded-lg">
         <div className="flex flex-col">
           {variant === "saved" ||
             ("home" && <h4 className="text-left">{article}</h4>)}
@@ -89,7 +82,7 @@ export default function CommentCard({
             </Button>
           )}
         </div>
-      </Card>
+      </div>
       <Snackbar
         open={open}
         autoHideDuration={1500}
