@@ -53,7 +53,17 @@ export const deleteComment = async (id: number) => {
 };
 
 export const getAllComments = async () => {
-  const comments = await prisma.userComments.findMany();
+  const comments = await prisma.userComments.findMany({
+    select: {
+      comment: true,
+      userName: true,
+      article: true,
+      createdAt: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
 
   return comments;
 };
