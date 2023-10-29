@@ -6,25 +6,18 @@ import CommentGenerator from "@/components/comment-generator";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useUser } from "@clerk/nextjs";
 
-const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
-  },
-});
-const lightTheme = createTheme({
-  palette: {
-    mode: "light",
-  },
-});
+const darkTheme = (darkMode: boolean) =>
+  createTheme({
+    palette: {
+      mode: darkMode ? "dark" : "light",
+    },
+  });
 
 export default function Home() {
   const [article, setArticle] = useState<string>("");
 
-  const user = useUser();
-
-  const isSystemDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+  const darkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
   const selectedArticleHandler = (event: React.MouseEvent<HTMLDivElement>) => {
     const articleTitle = (event.target as HTMLDivElement).textContent;
@@ -36,7 +29,7 @@ export default function Home() {
     }
   };
   return (
-    <ThemeProvider theme={isSystemDarkMode ? darkTheme : lightTheme}>
+    <ThemeProvider theme={darkTheme(darkMode)}>
       <CssBaseline />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-0">
         <CommentGenerator selectedArticle={article} />

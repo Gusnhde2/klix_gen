@@ -42,12 +42,10 @@ export default function CommentCard({
 
   return (
     <>
-      <div className="flex flex-col md:flex-row justify-between items-center justify-center gap-1 p-3 md:px-10 md:py-5 dark:text-white dark:bg-gray-800 w-11/12 rounded-lg">
+      <div className="flex flex-col md:flex-row justify-between w-full items-center justify-center gap-1 p-3 md:px-10 md:py-5 dark:text-white dark:bg-gray-800 w-11/12 rounded-lg">
         <div className="flex flex-col">
-          {variant === "saved" ||
-            ("home" && <h4 className="text-left">{article}</h4>)}
+          {variant !== "generate" && <h4 className="text-left">{article}</h4>}
           <p>{comment}</p>
-
           <div>
             {variant === "home" && <p className="text-sm">{userName}</p>}
             {variant === "saved" ||

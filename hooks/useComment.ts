@@ -1,29 +1,13 @@
 import { useUser } from "@clerk/nextjs";
 import { useState } from "react";
 
-interface CommentHook {
-  status: number | undefined;
-  message: string;
-  open: boolean;
-  userName: string | undefined;
-  severity: string;
-  postId: string;
-  saveComment: (comment: string, article: string) => Promise<void>;
-  copyText: (comment: string) => void;
-}
-
 const useComment = () => {
   const [status, setStatus] = useState<number | undefined>();
   const [message, setMessage] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
   const user = useUser();
 
-  const severity =
-    status === 200
-      ? "success"
-      : "error" || message === "Komentar je izbrisan!"
-      ? "success"
-      : "error";
+  const severity = status === 200 ? "success" : "error";
 
   const saveComment = async (
     comment: string,

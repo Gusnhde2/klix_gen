@@ -52,8 +52,10 @@ export const deleteComment = async (id: number) => {
   });
 };
 
-export const getAllComments = async () => {
+export const getAllComments = async (order: string, page: number) => {
   const comments = await prisma.userComments.findMany({
+    skip: 10 * (page - 1),
+    take: 10,
     select: {
       comment: true,
       userName: true,
@@ -61,9 +63,25 @@ export const getAllComments = async () => {
       createdAt: true,
     },
     orderBy: {
-      createdAt: "desc",
+      createdAt: order === "asc" ? "asc" : "desc",
     },
   });
 
   return comments;
+};
+
+export const getCommentsCount = async () => {
+  const commentsCount = await prisma.userComments.count();
+
+  return commentsCount;
+};
+
+export const getUserCommentsCount = async (id: string) => {
+  const commentsCount = await prisma.userComments.count({
+    where: {
+      userId: id,
+    },
+  });
+
+  return commentsCount;
 };

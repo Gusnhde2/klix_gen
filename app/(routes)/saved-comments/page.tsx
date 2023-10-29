@@ -8,17 +8,32 @@ import {
   AlertColor,
   Button,
   CircularProgress,
+  Pagination,
   Snackbar,
+  ThemeProvider,
+  createTheme,
+  useMediaQuery,
 } from "@mui/material";
+
+const darkTheme = (darkMode: boolean) =>
+  createTheme({
+    palette: {
+      mode: darkMode ? "dark" : "light",
+    },
+  });
 
 export default function SavedComments() {
   const [comments, setComments] = useState<any[]>([]);
+  const [paginatedComments, setPaginatedComments] = useState<any[]>([]);
   const [deleteMessage, setDeleteMessage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
 
   const severity =
     deleteMessage === "Komentar je izbrisan!" ? "success" : "error";
+
+  const darkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
   const user = useUser();
 
@@ -74,49 +89,67 @@ export default function SavedComments() {
       setOpenSnackbar(true);
     }
   };
-  return (
-    <div className="flex flex-col items-center gap-10 dark:bg-neutral-900 dark:text-white md:p-10 p-3">
-      <h3 className="w-full text-left">
-        Zdravo {user.user?.firstName}! Ovo je stranica Vaših spremljenih
-        komentara.
-      </h3>
 
-      {comments.map((comment: any) => {
-        return (
-          <div
-            key={comment.postId}
-            className="flex flex-col w-11/12 md:w-full md:flex-row items-center justify-between px-5 pb-3 dark:bg-neutral-700 dark:text-white"
-          >
-            <div>
-              <h4>{comment.article}</h4>
-              <p>{comment.comment}</p>
-            </div>
-            <div className="flex">
-              <div className="flex flex-col w-full">
-                <p className="m-0">Komentar kreiran:</p>
-                <span>{new Date(comment.createdAt).toLocaleDateString()}</span>
+  useEffect(() => {
+    const startIndex = (page - 1) * 10;
+    const endIndex = page * 10;
+    setPaginatedComments(comments.slice(startIndex, endIndex));
+  }, [page, comments]);
+
+  return (
+    <ThemeProvider theme={darkTheme(darkMode)}>
+      <div className="flex flex-col items-center gap-10 dark:bg-neutral-900 dark:text-white md:p-10 p-3">
+        <h3 className="w-full text-left">
+          Zdravo {user.user?.firstName}! Ovo je stranica Vaših spremljenih
+          komentara.
+        </h3>
+
+        {paginatedComments.map((comment: any) => {
+          return (
+            <div
+              key={comment.postId}
+              className="flex flex-col w-11/12 md:w-full md:flex-row items-center justify-between px-5 pb-3 dark:bg-neutral-700 dark:text-white"
+            >
+              <div>
+                <h4>{comment.article}</h4>
+                <p>{comment.comment}</p>
               </div>
-              <Button
-                id={comment.postId}
-                variant="contained"
-                color="primary"
-                onClick={deleteCommentHandler}
-              >
-                Izbriši komentar
-              </Button>
+              <div className="flex">
+                <div className="flex flex-col w-full">
+                  <p className="m-0">Komentar kreiran:</p>
+                  <span>
+                    {new Date(comment.createdAt).toLocaleDateString()}
+                  </span>
+                </div>
+                <Button
+                  id={comment.postId}
+                  variant="contained"
+                  color="primary"
+                  onClick={deleteCommentHandler}
+                >
+                  Izbriši komentar
+                </Button>
+              </div>
             </div>
-          </div>
-        );
-      })}
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={1500}
-        onClose={() => setOpenSnackbar(false)}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
-        <Alert severity={severity as AlertColor}>{deleteMessage}</Alert>
-      </Snackbar>
-      {loading && <CircularProgress />}
-    </div>
+          );
+        })}
+        <div className="flex justify-center items-center gap-5">
+          <Pagination
+            count={Math.ceil(comments.length / 10)}
+            page={page}
+            onChange={(e, value) => setPage(value)}
+          />
+        </div>
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={1500}
+          onClose={() => setOpenSnackbar(false)}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        >
+          <Alert severity={severity as AlertColor}>{deleteMessage}</Alert>
+        </Snackbar>
+        {loading && <CircularProgress />}
+      </div>
+    </ThemeProvider>
   );
 }

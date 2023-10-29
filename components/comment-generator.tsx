@@ -77,7 +77,13 @@ export default function CommentGenerator({
         </Card>
         {loading && <CircularProgress />}
         {comment && (
-          <CommentCard comment={comment} article={article} variant="generate" />
+          <div className="w-11/12">
+            <CommentCard
+              comment={comment}
+              article={article}
+              variant="generate"
+            />
+          </div>
         )}
       </div>
     </Box>
