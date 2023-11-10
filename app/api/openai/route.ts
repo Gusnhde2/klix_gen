@@ -8,6 +8,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const completion = await openai.chat.completions.create({
+      model: "gpt-4-1106-preview",
       messages: [
         {
           role: "system",
@@ -19,7 +20,11 @@ export async function POST(req: NextRequest) {
           content: `Generiši komentar za klix.ba na sljedeći naslov: ${prompt}. `,
         },
       ],
-      model: "gpt-4",
+      temperature: 0,
+      max_tokens: 256,
+      top_p: 1,
+      frequency_penalty: 0,
+      presence_penalty: 0,
     });
 
     return NextResponse.json({
