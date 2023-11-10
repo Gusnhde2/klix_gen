@@ -34,7 +34,7 @@ export default function CommentGenerator({
       });
       if (response.ok) {
         const data = await response.json();
-        setComment(data.message.content);
+        setComment(data?.message?.content);
         setLoading(false);
       }
     } catch (error) {
