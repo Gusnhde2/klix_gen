@@ -23,7 +23,6 @@ export default function CommentGenerator({
   }, [selectedArticle]);
 
   const generateCommentHandler = async () => {
-    setComment(null);
     setLoading(true);
     try {
       const response = await fetch("/api/openai", {
@@ -76,7 +75,7 @@ export default function CommentGenerator({
           </div>
         </Card>
         {loading && <CircularProgress />}
-        {comment && (
+        {!loading && comment && (
           <div className="w-11/12">
             <CommentCard
               comment={comment}
