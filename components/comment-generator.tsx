@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 
 import { CircularProgress, FormControl } from "@mui/material";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -35,13 +36,9 @@ export default function CommentGenerator({
       if (response.ok) {
         const data = await response.json();
         if (data && data.message && data.message.content) {
-          console.log(data);
-          console.log(data.message.content);
           setComment(data.message.content);
           setLoading(false);
         } else {
-          console.log(data, "Else");
-          console.log(data.message.content, "else");
           setComment("Nije moguće generisati komentar za ovaj članak.");
           setLoading(false);
         }
@@ -79,7 +76,7 @@ export default function CommentGenerator({
               color="success"
               size="large"
             >
-              Generiši komentar
+              Generiši komentar <KeyboardArrowRightIcon />
             </Button>
           </div>
         </Card>

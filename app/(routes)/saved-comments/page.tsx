@@ -3,15 +3,16 @@
 import { useEffect, useState } from "react";
 
 import { useUser } from "@clerk/nextjs";
+import { DeleteForeverOutlined } from "@mui/icons-material";
 import {
   Alert,
   AlertColor,
   Button,
   CircularProgress,
+  createTheme,
   Pagination,
   Snackbar,
   ThemeProvider,
-  createTheme,
   useMediaQuery,
 } from "@mui/material";
 
@@ -114,7 +115,7 @@ export default function SavedComments() {
                 <h4>{comment.article}</h4>
                 <p>{comment.comment}</p>
               </div>
-              <div className="flex">
+              <div className="flex gap-2">
                 <div className="flex flex-col w-full">
                   <p className="m-0">Komentar kreiran:</p>
                   <span>
@@ -127,7 +128,7 @@ export default function SavedComments() {
                   color="primary"
                   onClick={deleteCommentHandler}
                 >
-                  Izbriši komentar
+                  <DeleteForeverOutlined />
                 </Button>
               </div>
             </div>

@@ -4,7 +4,13 @@ import { useState } from "react";
 
 import useComment from "@/hooks/useComment";
 import { useUser } from "@clerk/nextjs";
-import { Favorite, FavoriteBorder } from "@mui/icons-material";
+import {
+  ContentCopy,
+  DeleteForever,
+  Favorite,
+  FavoriteBorder,
+  SaveAlt,
+} from "@mui/icons-material";
 import { Alert, AlertColor, Button, IconButton, Snackbar } from "@mui/material";
 
 interface CommentCardProps {
@@ -67,16 +73,16 @@ export default function CommentCard({
             </IconButton>
           )}
           <Button variant="outlined" onClick={copyTextHandler}>
-            Kopiraj
+            <ContentCopy />
           </Button>
           {variant === "saved" && (
             <Button variant="outlined" onClick={deleteComment}>
-              Izbriši
+              <DeleteForever />
             </Button>
           )}
           {variant === "generate" && (
             <Button variant="outlined" onClick={saveCommentHandler}>
-              Spremi
+              <SaveAlt />
             </Button>
           )}
         </div>
