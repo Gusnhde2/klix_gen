@@ -35,9 +35,13 @@ export default function CommentGenerator({
       if (response.ok) {
         const data = await response.json();
         if (data && data.message && data.message.content) {
+          console.log(data);
+          console.log(data.message.content);
           setComment(data.message.content);
           setLoading(false);
         } else {
+          console.log(data, "Else");
+          console.log(data.message.content, "else");
           setComment("Nije moguće generisati komentar za ovaj članak.");
           setLoading(false);
         }
