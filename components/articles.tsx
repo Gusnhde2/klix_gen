@@ -36,7 +36,7 @@ export default function Articles({
 
   return (
     <Card variant="outlined" className="md:p-5 md:mr-20 w-full">
-      <Container className="flex flex-col gap-5  ">
+      <Container className="flex flex-col gap-5">
         <h3>klix.ba članci</h3>
         <ButtonGroup
           variant="text"

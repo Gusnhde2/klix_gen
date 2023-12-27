@@ -9,15 +9,23 @@ import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
 
 import CommentCard from "./comment-card";
+import Modal from "./modal";
 
 export default function CommentGenerator({
   selectedArticle,
+  generating,
 }: {
   selectedArticle: string;
+  generating: () => void;
 }) {
   const [article, setArticle] = useState<string>("");
   const [comment, setComment] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [error, setError] = useState<{ error: string; message: string }>({
+    error: "",
+    message: "",
+  });
 
   useEffect(() => {
     setArticle(selectedArticle);
@@ -25,6 +33,7 @@ export default function CommentGenerator({
 
   const generateCommentHandler = async () => {
     setLoading(true);
+    setModalOpen(false);
     try {
       const response = await fetch("/api/openai", {
         method: "POST",
@@ -38,8 +47,10 @@ export default function CommentGenerator({
         if (data && data.message && data.message.content) {
           setComment(data.message.content);
           setLoading(false);
+          generating();
         } else {
-          setComment("Nije moguće generisati komentar za ovaj članak.");
+          setError(data.body);
+          setModalOpen(true);
           setLoading(false);
         }
       }
@@ -56,6 +67,8 @@ export default function CommentGenerator({
       noValidate
       autoComplete="off"
     >
+      {error.error && <Modal open={modalOpen} title={error.error} message="" />}
+
       <div className="flex flex-col gap-10 items-center w-full ">
         <Card className="flex flex-col p-5 md:p-10 gap-5 w-11/12">
           <FormControl fullWidth>

@@ -1,8 +1,33 @@
+import { getApiLimit, incrementApiLimit } from "@/lib/api-limit";
+import { auth } from "@clerk/nextjs";
+import { Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { OpenAI } from "openai";
 
 export async function POST(req: NextRequest) {
   const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+  const { userId } = auth();
+
+  if (!userId) {
+    return NextResponse.json({
+      status: 401,
+      body: JSON.stringify({
+        error: "Niste prijavljeni.",
+      }),
+    });
+  }
+
+  const apiLimitCount = await getApiLimit();
+
+  if (!apiLimitCount) {
+    return NextResponse.json({
+      status: 402,
+      body: {
+        error: "Nažalost, potrošili ste kredite.",
+      },
+    });
+  }
 
   const { prompt } = await req.json();
 
@@ -26,7 +51,7 @@ export async function POST(req: NextRequest) {
       frequency_penalty: 0,
       presence_penalty: 0,
     });
-
+    incrementApiLimit();
     return NextResponse.json({
       message: completion.choices[0].message,
     });

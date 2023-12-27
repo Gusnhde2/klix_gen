@@ -20,7 +20,7 @@ interface CommentCardProps {
   userName?: string;
   postId?: string;
   deleteComment?: (event: any) => void;
-  variant?: "generate" | "saved" | "home";
+  variant?: "generate" | "saved" | "home" | "upgrade";
 }
 
 export default function CommentCard({
@@ -75,6 +75,7 @@ export default function CommentCard({
           <Button variant="outlined" onClick={copyTextHandler}>
             <ContentCopy />
           </Button>
+
           {variant === "saved" && (
             <Button variant="outlined" onClick={deleteComment}>
               <DeleteForever />
