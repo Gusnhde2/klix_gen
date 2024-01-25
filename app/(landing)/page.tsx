@@ -32,6 +32,7 @@ export default function Home() {
   const [sorting, setSorting] = useState<string>("desc");
   const [commentsCount, setCommentsCount] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
+  const [openSorting, setOpenSorting] = useState<boolean>(false);
 
   const user = useUser();
 
@@ -69,6 +70,14 @@ export default function Home() {
     setPage(1);
   };
 
+  const handleClose = () => {
+    setOpenSorting(false);
+  };
+
+  const handleOpen = () => {
+    setOpenSorting(true);
+  };
+
   return (
     <ThemeProvider theme={darkTheme(darkMode)}>
       <CssBaseline />
@@ -88,8 +97,13 @@ export default function Home() {
             <InputLabel id="sorting-label">Sortiraj</InputLabel>
             <Select
               labelId="sorting-label"
+              id="sorting"
               onChange={sortingHandler}
               value={sorting}
+              open={openSorting}
+              onClose={handleClose}
+              onOpen={handleOpen}
+              label="Sortiraj"
             >
               <MenuItem value="asc">Od najstarijeg</MenuItem>
               <MenuItem value="desc">Od najnovijeg</MenuItem>
