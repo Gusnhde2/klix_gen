@@ -39,6 +39,20 @@ model UserComments {
   updatedAt DateTime @updatedAt
 }
 
+model Assistant {
+  id       String        @id @default(uuid())
+  assistantId String      @unique
+  threadId String        @unique
+  name     String
+  lastname String
+  sex      String
+  language String
+  picture  String
+  authId   String
+  lastSeen DateTime
+  lastMessage String
+}
+
 model KlixGenUserApiLimit {
   id        String     @id @default(uuid())
   userId    String @unique
