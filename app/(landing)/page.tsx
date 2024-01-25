@@ -96,21 +96,23 @@ export default function Home() {
             </Select>
           </FormControl>
         </div>
-        {loading && (
-          <div className="flex justify-center w-full">
-            <CircularProgress />
-          </div>
-        )}
-        {comments.map((comments: any) => (
-          <CommentCard
-            key={comments.postId}
-            variant="home"
-            comment={comments.comment}
-            article={comments.article}
-            createdAt={new Date(comments.createdAt).toLocaleDateString()}
-            userName={comments.userName}
-          />
-        ))}
+        <div className="flex flex-col md:w-3/4 gap-3">
+          {loading && (
+            <div className="flex justify-center w-full">
+              <CircularProgress />
+            </div>
+          )}
+          {comments.map((comments: any) => (
+            <CommentCard
+              key={comments.postId}
+              variant="home"
+              comment={comments.comment}
+              article={comments.article}
+              createdAt={new Date(comments.createdAt).toLocaleDateString()}
+              userName={comments.userName}
+            />
+          ))}
+        </div>
         <div className="flex justify-center w-full">
           <Pagination
             count={Math.ceil(commentsCount / 10)}
