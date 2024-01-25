@@ -12,6 +12,7 @@ import {
   SaveAlt,
 } from "@mui/icons-material";
 import { Alert, AlertColor, Button, IconButton, Snackbar } from "@mui/material";
+import useTheme from "@/hooks/useDarkMode";
 
 interface CommentCardProps {
   comment: string;
@@ -46,9 +47,11 @@ export default function CommentCard({
     copyText(comment);
   };
 
+  const darkTheme = useTheme();
+
   return (
     <>
-      <div className="flex flex-col md:flex-row justify-between w-full items-center justify-center gap-1 p-3 md:px-10 md:py-5 dark:text-white dark:bg-gray-800 w-11/12 rounded-lg">
+      <div className="flex flex-col md:flex-row justify-between w-full items-center justify-center gap-1 p-3 md:px-10 md:py-5 dark:text-white dark:bg-gray-800 bg-slate-300 w-11/12 rounded-lg border-slate-800">
         <div className="flex flex-col">
           {variant !== "generate" && <h4 className="text-left">{article}</h4>}
           <p>{comment}</p>
@@ -66,9 +69,12 @@ export default function CommentCard({
               onClick={() => setCommentLiked(!commentLiked)}
             >
               {commentLiked ? (
-                <Favorite fontSize="inherit" sx={{ color: "#FFC0CB" }} />
+                <Favorite fontSize="inherit" sx={{ color: "#FF4033" }} />
               ) : (
-                <FavoriteBorder fontSize="inherit" sx={{ color: "#FFF" }} />
+                <FavoriteBorder
+                  fontSize="inherit"
+                  sx={{ color: `${darkTheme ? "#FFF" : "#000"}` }}
+                />
               )}
             </IconButton>
           )}
