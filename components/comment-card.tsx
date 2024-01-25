@@ -11,8 +11,14 @@ import {
   FavoriteBorder,
   SaveAlt,
 } from "@mui/icons-material";
-import { Alert, AlertColor, Button, IconButton, Snackbar } from "@mui/material";
-import useTheme from "@/hooks/useDarkMode";
+import {
+  Alert,
+  AlertColor,
+  Button,
+  IconButton,
+  Snackbar,
+  useMediaQuery,
+} from "@mui/material";
 
 interface CommentCardProps {
   comment: string;
@@ -47,7 +53,7 @@ export default function CommentCard({
     copyText(comment);
   };
 
-  const darkTheme = useTheme();
+  const darkTheme = useMediaQuery("(prefers-color-scheme: dark)");
 
   return (
     <>

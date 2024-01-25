@@ -6,7 +6,6 @@ import CommentCard from "@/components/comment-card";
 import { useUser } from "@clerk/nextjs";
 import {
   Button,
-  ButtonGroup,
   CircularProgress,
   createTheme,
   CssBaseline,
@@ -81,18 +80,31 @@ export default function Home() {
   return (
     <ThemeProvider theme={darkTheme(darkMode)}>
       <CssBaseline />
-      <div className="flex flex-col gap-5 px-3 mb-10">
-        <ButtonGroup variant="text" aria-label="text button group">
-          <Button onClick={() => router.push("/generate")}>
-            Generiši komentar
-          </Button>
-          {user.isSignedIn && (
-            <Button onClick={() => router.push("/saved-comments")}>
-              Moji komentari
+      <div className="flex flex-col gap-5 px-3 mb-10 justify-center align-start md:w-3/4 min-h-screen">
+        <div className="flex align-center justify-between">
+          <h4 className=" block md:text-lg w-1/2 md:w-auto self-center">
+            Postani prosjecni Klix komentator kroz par klikova!
+          </h4>
+          <div className="self-center">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => router.push("/generate")}
+              size="small"
+            >
+              Generiši komentar
             </Button>
-          )}
-        </ButtonGroup>
-        <div>
+          </div>
+        </div>
+        <div className="text-justify">
+          <p>
+            Ova stranica pokazuje moć umjetne inteligencije kroz humorističan
+            prikaz komentara s portala klix.ba. Klikom na &quot;Generiraj
+            komentar&quot; odaberite članak, generirajte komentar, kopirajte i
+            zalijepite ga na članak jednostavnim klikom na poveznicu.
+          </p>
+        </div>
+        <div className="md:w-3/4 flex align-center justify-between">
           <FormControl>
             <InputLabel id="sorting-label">Sortiraj</InputLabel>
             <Select
@@ -110,7 +122,7 @@ export default function Home() {
             </Select>
           </FormControl>
         </div>
-        <div className="flex flex-col md:w-3/4 gap-3">
+        <div className="flex flex-col w-full gap-3">
           {loading && (
             <div className="flex justify-center w-full">
               <CircularProgress />

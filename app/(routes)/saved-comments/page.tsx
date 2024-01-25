@@ -99,7 +99,7 @@ export default function SavedComments() {
 
   return (
     <ThemeProvider theme={darkTheme(darkMode)}>
-      <div className="flex flex-col items-center gap-10 dark:bg-neutral-900 dark:text-white md:p-10 p-3">
+      <div className="flex flex-col items-center gap-10 dark:bg-neutral-900 dark:text-white md:p-10 p-3 min-h-screen">
         <h3 className="w-full text-left">
           Zdravo {user.user?.firstName}! Ovo je stranica Vaših spremljenih
           komentara.
