@@ -80,7 +80,7 @@ export default function Home() {
   return (
     <ThemeProvider theme={darkTheme(darkMode)}>
       <CssBaseline />
-      <div className="flex flex-col gap-5 px-3 mb-10 justify-center align-start md:w-3/4 min-h-screen">
+      <div className="flex flex-col gap-5 px-3 mb-10 justify-start align-start md:w-3/4 min-h-screen">
         <div className="flex align-center justify-between">
           <h4 className=" block md:text-lg w-1/2 md:w-auto self-center">
             Postani prosjecni Klix komentator kroz par klikova!

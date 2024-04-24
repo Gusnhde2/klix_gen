@@ -3,5 +3,7 @@ export default function ProfileLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="flex justify-center">{children}</div>;
+  return (
+    <div className="flex justify-center min-height-screen">{children}</div>
+  );
 }
